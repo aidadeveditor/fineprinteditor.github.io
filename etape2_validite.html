@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Générateur - Étape 2 : Type, Exclusions & Validité</title>
+  <style>
+    :root { --primary: #53A318; --bg: #f4f6f8; --panel: #fff; --text: #333; --border: #e1e4e8; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); margin: 0; padding: 20px; display: flex; gap: 20px; height: 100vh; box-sizing: border-box; color: var(--text); }
+
+    .col-left { flex: 1.2; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; padding-right: 10px; }
+    .col-right { flex: 0.8; background: var(--panel); padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
+
+    .section { background: var(--panel); padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    h2 { margin-top: 0; color: var(--primary); border-bottom: 2px solid #eee; padding-bottom: 10px; font-size: 18px; display: flex; align-items: center; gap: 8px; }
+
+    .hidden { display: none !important; }
+    .form-group { margin-bottom: 15px; }
+    label.title { display: block; font-weight: bold; margin-bottom: 8px; font-size: 14px; }
+
+    .radio-group, .checkbox-group { display: flex; flex-wrap: wrap; gap: 15px; align-items: center; }
+    .radio-btn { border: 1px solid var(--border); padding: 6px 12px; border-radius: 20px; font-size: 13px; cursor: pointer; transition: 0.2s; background: white; user-select: none; }
+    input[type="radio"], input[type="checkbox"] { display: none; }
+    input[type="radio"]:checked + .radio-btn, input[type="checkbox"]:checked + .radio-btn { background: #e6f4ea; border-color: var(--primary); color: var(--primary); font-weight: bold; }
+
+    .real-checkbox { display: inline-block !important; width: auto !important; margin-right: 8px; }
+
+    input[type="text"], input[type="date"], select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px; font-family: inherit; }
+    input[type="text"]:focus, select:focus { outline: none; border-color: var(--primary); }
+
+    .sub-section { margin-top: 12px; padding-left: 15px; border-left: 2px solid var(--primary); display: flex; flex-direction: column; gap: 10px; }
+    .flex-row { display: flex; gap: 10px; align-items: center; }
+
+    textarea { flex: 1; font-family: monospace; font-size: 13px; padding: 15px; background: #1e1e1e; color: #d4d4d4; border-radius: 4px; border: none; resize: none; margin-bottom: 15px; }
+    .btn-copy { background: var(--primary); color: white; border: none; padding: 12px; font-size: 14px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+    .btn-copy:hover { background: #428213; }
+  </style>
+</head>
+<body>
+
+  <!-- COLONNE GAUCHE : FORMULAIRE -->
+  <div class="col-left">
+
+    <!-- 1. TYPE DE DEAL -->
+    <div class="section">
+      <h2>🌍 Type de deal</h2>
+      <div class="radio-group">
+        <input type="radio" name="deal_type" id="dt_fr" value="Local FR" onchange="generate()" checked><label class="radio-btn" for="dt_fr">Local FR</label>
+        <input type="radio" name="deal_type" id="dt_be" value="Local BE" onchange="generate()"><label class="radio-btn" for="dt_be">Local BE</label>
+        <input type="radio" name="deal_type" id="dt_kam" value="KAM" onchange="generate()"><label class="radio-btn" for="dt_kam">KAM</label>
+        <input type="radio" name="deal_type" id="dt_glive" value="GLive" onchange="generate()"><label class="radio-btn" for="dt_glive">G-Live</label>
+      </div>
+    </div>
+
+    <!-- 2. WARNINGS / EXCLUSIONS -->
+    <div class="section">
+      <h2>⚠️ Warnings (Exclusions)</h2>
+      <div class="form-group">
+        <label class="title">Exclusions (Texte libre)</label>
+        <div class="radio-group">
+          <input type="radio" name="excl_radio" id="excl_oui" value="oui" onchange="updateUI()"><label class="radio-btn" for="excl_oui">Oui</label>
+          <input type="radio" name="excl_radio" id="excl_non" value="non" onchange="updateUI()" checked><label class="radio-btn" for="excl_non">Non</label>
+        </div>
+        <div id="excl_text_container" class="sub-section hidden">
+          <input type="text" id="excl_text" placeholder="Détail des exclusions (@Exclusions)" oninput="generate()">
+        </div>
+      </div>
+      <div class="form-group">
+        <label style="cursor: pointer; display: flex; align-items: center; font-size: 14px;">
+          <input type="checkbox" id="excl_femmes" class="real-checkbox" onchange="generate()"> 
+          Offre exclusivement réservée aux femmes
+        </label>
+      </div>
+    </div>
+
+    <!-- 3. VALIDITÉ -->
+    <div class="section">
+      <h2>📅 Validité</h2>
+      <div class="radio-group" style="margin-bottom: 15px;">
+        <input type="radio" name="val_cat" id="vc_periode" value="periode" onchange="updateUI()" checked><label class="radio-btn" for="vc_periode">Période selon l'achat</label>
+        <input type="radio" name="val_cat" id="vc_fixe" value="fixe" onchange="updateUI()"><label class="radio-btn" for="vc_fixe">Date fixe</label>
+        <input type="radio" name="val_cat" id="vc_unique" value="unique" onchange="updateUI()"><label class="radio-btn" for="vc_unique">Date unique</label>
+      </div>
+
+      <!-- Sous-menu : Période -->
+      <div id="val_periode_sec" class="sub-section">
+        <label style="font-size:13px; color:#555;">Combien de mois à partir de la date d'achat ?</label>
+        <select id="val_periode_sel" onchange="updateUI(); generate()">
+          <option value="">-- Sélectionner --</option>
+          <option value="1 mois">1 mois</option>
+          <option value="2 mois">2 mois</option>
+          <option value="3 mois">3 mois</option>
+          <option value="4 mois">4 mois</option>
+          <option value="5 mois">5 mois</option>
+          <option value="6 mois">6 mois</option>
+          <option value="autre">Texte libre...</option>
+        </select>
+        <input type="text" id="val_periode_txt" class="hidden" placeholder="Ex: 90 jours" oninput="generate()">
+      </div>
+
+      <!-- Sous-menu : Date fixe -->
+      <div id="val_fixe_sec" class="sub-section hidden">
+        <label style="font-size:13px; color:#555;">Saisir une date fixe (au choix : calendrier OU texte libre)</label>
+        <div class="flex-row">
+          <input type="date" id="val_fixe_date" onchange="syncDate('val_fixe_date', 'val_fixe_txt'); generate()">
+          <span style="font-size: 13px;">ou</span>
+          <input type="text" id="val_fixe_txt" placeholder="Ex: 31 décembre 2026" oninput="generate()">
+        </div>
+      </div>
+
+      <!-- Sous-menu : Date unique -->
+      <div id="val_unique_sec" class="sub-section hidden">
+        <label style="font-size:13px; color:#555;">Saisir la date unique (au choix : calendrier OU texte libre)</label>
+        <div class="flex-row">
+          <input type="date" id="val_unique_date" onchange="syncDate('val_unique_date', 'val_unique_txt'); generate()">
+          <span style="font-size: 13px;">ou</span>
+          <input type="text" id="val_unique_txt" placeholder="Ex: 14 juillet 2026" oninput="generate()">
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- COLONNE DROITE : RÉSULTAT -->
+  <div class="col-right">
+    <h2>💻 Résultat HTML généré</h2>
+    <textarea id="output" readonly></textarea>
+    <button class="btn-copy" onclick="copyHTML()">📋 Copier le code HTML</button>
+  </div>
+
+  <script>
+    // Formatage de la date YYYY-MM-DD en DD/MM/YYYY pour le texte
+    function syncDate(idDate, idTxt) {
+      const dateVal = document.getElementById(idDate).value;
+      if (dateVal) {
+        const [y, m, d] = dateVal.split('-');
+        document.getElementById(idTxt).value = `${d}/${m}/${y}`;
+      }
+    }
+
+    function updateUI() {
+      // Exclusions
+      const isExclOui = document.getElementById('excl_oui').checked;
+      document.getElementById('excl_text_container').classList.toggle('hidden', !isExclOui);
+      if (!isExclOui) document.getElementById('excl_text').value = '';
+
+      // Validité (Catégories)
+      const cat = document.querySelector('input[name="val_cat"]:checked').value;
+      document.getElementById('val_periode_sec').classList.toggle('hidden', cat !== 'periode');
+      document.getElementById('val_fixe_sec').classList.toggle('hidden', cat !== 'fixe');
+      document.getElementById('val_unique_sec').classList.toggle('hidden', cat !== 'unique');
+
+      // Validité (Période -> Texte libre)
+      const selPeriode = document.getElementById('val_periode_sel').value;
+      document.getElementById('val_periode_txt').classList.toggle('hidden', selPeriode !== 'autre');
+      if (selPeriode !== 'autre') document.getElementById('val_periode_txt').value = '';
+
+      generate();
+    }
+
+    function generate() {
+      const dealType = document.querySelector('input[name="deal_type"]:checked').value;
+      let lis = [];
+
+      // 1. WARNINGS
+      if (document.getElementById('excl_oui').checked) {
+        let text = document.getElementById('excl_text').value.trim();
+        if (text) {
+          text = text.replace(/\.$/, ''); // Enlève le point final si l'utilisateur l'a tapé
+          lis.push(`<li><strong>Exclusions / Éligibilité :</strong> ${text}.</li>`);
+        }
+      }
+      if (document.getElementById('excl_femmes').checked) {
+        lis.push(`<li><strong>Éligibilité :</strong> offre exclusivement réservée aux femmes.</li>`);
+      }
+
+      // 2. VALIDITÉ
+      const valCat = document.querySelector('input[name="val_cat"]:checked').value;
+      let valHTML = '';
+
+      if (valCat === 'periode') {
+        let pVal = document.getElementById('val_periode_sel').value;
+        if (pVal === 'autre') pVal = document.getElementById('val_periode_txt').value.trim();
+
+        if (pVal) {
+          if (dealType === 'KAM') {
+            valHTML = `<li><strong>Validité :</strong> dès la réception de votre coupon, vous avez ${pVal} à partir de la date d'achat pour valider votre commande/inscription en ligne sur le site du vendeur. Le coupon est uniquement valable pour l'option choisie au moment de l’achat.</li>`;
+          } else {
+            valHTML = `<li><strong>Validité :</strong> coupon valable ${pVal} à partir de la date d'achat. Le coupon est uniquement valable pour l'option choisie au moment de l’achat.</li>`;
+          }
+        }
+      } 
+      else if (valCat === 'fixe') {
+        let fVal = document.getElementById('val_fixe_txt').value.trim(); // txt contient soit le texte libre, soit la date formatée
+        if (fVal) {
+          if (dealType === 'KAM') {
+            valHTML = `<li><strong>Validité :</strong> dès la réception de votre coupon, vous avez jusqu'au ${fVal} pour valider votre commande/inscription en ligne sur le site du vendeur. Le coupon est uniquement valable pour l'option choisie au moment de l’achat.</li>`;
+          } else {
+            valHTML = `<li><strong>Validité :</strong> coupon valable jusqu'au ${fVal}. Le coupon est uniquement valable pour l'option choisie au moment de l’achat.</li>`;
+          }
+        }
+      }
+      else if (valCat === 'unique') {
+        let uVal = document.getElementById('val_unique_txt').value.trim();
+        if (uVal) {
+          // La consigne indique "(G-Live)" dans le texte. On l'ajoute.
+          valHTML = `<li><strong>Validité :</strong> coupon valable le ${uVal} (G-Live). Le coupon est uniquement valable pour l'option choisie au moment de l’achat.</li>`;
+        }
+      }
+
+      if (valHTML) lis.push(valHTML);
+
+      // GÉNÉRATION FINALE
+      let html = '';
+      if (lis.length > 0) {
+        html = '<ul>\n';
+        lis.forEach(li => html += `  ${li}\n`);
+        html += '</ul>';
+      }
+
+      document.getElementById('output').value = html;
+    }
+
+    function copyHTML() {
+      const out = document.getElementById('output');
+      if (!out.value) return;
+      out.select();
+      document.execCommand('copy');
+      alert('Code HTML copié !');
+    }
+
+    // Init
+    updateUI();
+  </script>
+</body>
+</html>
