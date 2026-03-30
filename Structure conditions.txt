@@ -1,0 +1,206 @@
+Type de deals : Local FR, Local BE, KAM, GLive
+
+--- WARNINGS ---
+*Avant achat*
+
+Exclusions : oui / non
+Si oui = texte libre "<li><strong>Exclusions / Éligibilité :</strong> @Exclusions.</li>
+Exclusions : case à cocher "offre exclusivement réservée aux femmes."
+Texte : "<li><strong>Éligibilité :</strong> offre exclusivement réservée aux femmes.</li> "
+
+
+--- VALIDITE ---
+*Après achat*
+Soit période selon la date d'achat, période fixe, ou entre deux dates 
+
+Période selon la date d'achat : proposer 1 (30 jours), 2 (60 jours), 3 (90 jours), 4 (120 jours), 5 (150 jours), 6 mois (180 jours) + texte libre
+Texte :
+<li><strong>Validité :</strong> coupon valable @Validité à partir de la date d'achat. Le coupon est uniquement valable pour l'option choisie au moment de l’achat.</li>
+Si type de deal est KAM :
+<li><strong>Validité :</strong> dès la réception de votre coupon, vous avez @Validité à partir de la date d'achat pour valider votre commande/inscription en ligne sur le site du vendeur. Le coupon est uniquement valable pour l'option choisie au moment de l’achat.</li>
+
+Date fixe : texte libre ou choix sur calendrier (mois en lettres)
+Texte :
+<li><strong>Validité :</strong> coupon valable jusqu'au @validité. Le coupon est uniquement valable pour l'option choisie au moment de l’achat.</li>
+Si type de deal est KAM :
+<li><strong>Validité :</strong> dès la réception de votre coupon, vous avez jusqu'au @validité pour valider votre commande/inscription en ligne sur le site du vendeur. Le coupon est uniquement valable pour l'option choisie au moment de l’achat.</li>
+
+Date fixe : texte libre ou choix sur calendrier (dates début-fin ; mois en lettres)
+Texte :
+<li><strong>Validité :</strong> coupon valable du @validité au @validité inclus. Le coupon est uniquement valable pour l'option choisie au moment de l’achat.</li>
+
+Date unique : texte livre ou choix sur calendrier (mois en lettres)
+Texte : <li><strong>Validité :</strong> coupon valable le @Validité (G-Live). Le coupon est uniquement valable pour l'option choisie au moment de l’achat.</li>
+
+--- Hors validité ---
+Texte libre quand il y a des exclusions de dates 
+
+--- Horaires ---
+
+Horaires : oui/non
+Si oui : texte libre
+Texte en cas de réservation : <li><strong>Horaires :</strong> sur rendez-vous @horaires.</li>
+Texte sans réservation : <li><strong>Horaires :</strong> @horaires.</li>
+Si Booking Tool - Local FR : <li><strong>Horaires :</strong> consultez <a href="https://www.groupon.fr/reservations/preview?dealid=@permalink&amp;utm_source=Groupon&amp;utm_medium=HP&amp;utm_campaign=PreviewBT" target="_blank" rel="noopener noreferrer" title="Consultez les disponibilités">les disponibilités</a>.</li>
+Si Booking Tool - Local BE : <li><strong>Horaires :</strong> consultez <a href="https://www.groupon.be/reservations/preview?dealid=@permalink&amp;utm_source=Groupon&amp;utm_medium=HP&amp;utm_campaign=PreviewBT" target="_blank" rel="noopener noreferrer" title="Consultez les disponibilités">les disponibilités</a>.</li>
+
+--- Limite d'achat de coupons ---
+*Avant achat*
+
+Limite : 
+par personne + à offrir : <li><strong>Limite d'achat de coupons :</strong> @Limite d'achat coupon par personne et par option, possibilité d'en acheter @supplémentaire supplémentaire pour offrir.</li>
+par personne sans possibilité d'offrir : <li><strong>Limite d'achat de coupons :</strong> @Limite d'achat coupon par personne et par option.</li>
+pas de limite : <li><strong>Limite d'achat de coupons :</strong> plusieurs coupons par personne peuvent être achetés et échangés.</li>
+
+
+--- Clause de rachat ---
+*Après achat*
+
+Rachat : oui / non
+Si oui : 1 (30 jours), 2 (60 jours), 3 (90 jours), 4 (120 jours), 5 (150 jours), 6 mois (180 jours) + texte libre
+Texte : <li><strong>Rachat :</strong> possibilité de rachat de coupon tous les @rachat.</li>
+
+--- Réservation champs ---
+*Après achat*
+
+Méthode : Téléphone / E-mail / Web / Booking Tool / Sans réservation / Sans réservation - coupon à échanger
+Délais : 6 heures, 12 heures, 24 heures, 48 heures, 72 heures, texte libre 
+
+Si Téléphone : champ pour renseigner le numéro <a href="tel:téléphone" rel="noopener noreferrer">téléphone</a>
+Si e-mail : champ pour renseigner l'e-mail <a href="mailto:e-mail" rel="noopener noreferrer">e-mail</a>
+Si web : champ pour renseigner le site et le texte du lien <a href="https://web (lien)" target="_blank" rel="noopener noreferrer" title="En cliquant sur ce lien, vous accédez à un site tiers non affilié à Groupon">texte du lien</a>
+Si Booking Tool : champ pour renseigner le permalink
+Local FR https://www.groupon.fr/reservations/preview?dealid=@permalink&amp;utm_source=Groupon&amp;utm_medium=HP&amp;utm_campaign=PreviewBT" target="_blank" rel="noopener noreferrer" title="Consultez les disponibilités">les disponibilités</a>
+Local BE https://www.groupon.be/reservations/preview?dealid=@permalink&amp;utm_source=Groupon&amp;utm_medium=HP&amp;utm_campaign=PreviewBT" target="_blank" rel="noopener noreferrer" title="Consultez les disponibilités">les disponibilités</a>
+
+--- Réservation texte ---
+
+Si Téléphone - avec délais : <li><strong>Réservation obligatoire exclusivement par téléphone</strong> au moins @délais à l'avance en suivant les indications figurant sur votre coupon. Présentez votre coupon à l'arrivée.</li>
+Si Téléphone - sans délais : <li><strong>Réservation obligatoire exclusivement par téléphone</strong> en suivant les indications figurant sur votre coupon. Présentez votre coupon à l'arrivée.</li>
+
+
+Si e-mail - avec délais : <li><strong>Réservation obligatoire exclusivement par e-mail</strong> au moins @délais à l'avance en suivant les indications figurant sur votre coupon. Présentez votre coupon à l'arrivée.</li>
+Si e-mail - sans délais : <li><strong>Réservation obligatoire exclusivement par e-mail</strong> en suivant les indications figurant sur votre coupon. Présentez votre coupon à l'arrivée.</li>
+
+
+Si web - avec délais : <li><strong>Réservation obligatoire exclusivement en ligne</strong> au moins @délais à l'avance en suivant le lien figurant sur votre coupon. Présentez votre coupon à l'arrivée.</li>
+Si web - sans délais : <li><strong>Réservation obligatoire exclusivement en ligne</strong> en suivant le lien figurant sur votre coupon. Présentez votre coupon à l'arrivée.</li>
+
+Si Booking Tool - Local FR  : champ pour renseigner le permalink de l'offre (<p>Réservation obligatoire au moins @heure réservation heures à l'avance. Consultez <a href="https://www.groupon.fr/reservations/preview?dealid=@permalink&amp;utm_source=Groupon&amp;utm_medium=HP&amp;utm_campaign=PreviewBT" target="_blank" rel="noopener noreferrer" title="Consultez les disponibilités">les disponibilités</a>.</p>
+<p><strong>La réservation en ligne est obligatoire</strong> au moment de l’achat ou depuis l’espace <a title="Consultez les disponibilités" target="_blank" href="https://www.groupon.fr/reservations/">"Mes commandes"</a> puis cliquez sur “Vous avez reçu un bon cadeau ? <u>Réserver maintenant</u>”.</p>
+<p>Renseignez ensuite les informations du coupon (le Code Groupon et le code de sécurité) et validez pour choisir la date et heure souhaitées pour la réservation.</p>
+<p>Votre réservation est instantanément prise en compte, il est donc inutile d'appeler. Une confirmation vous sera envoyée par e-mail.</p>
+<p>Présentez le coupon à l’arrivée.</p>)
+
+Si Booking Tool - Local BE  : champ pour renseigner le permalink de l'offre (<p>Réservation obligatoire au moins @heure réservation heures à l'avance. Consultez <a href="https://www.groupon.be/reservations/preview?dealid=@permalink&amp;utm_source=Groupon&amp;utm_medium=HP&amp;utm_campaign=PreviewBT" target="_blank" rel="noopener noreferrer" title="Consultez les disponibilités">les disponibilités</a>.</p>
+<p><strong>La réservation en ligne est obligatoire</strong> au moment de l’achat ou depuis l’espace <a title="Consultez les disponibilités" target="_blank" href="https://www.groupon.be/reservations/">"Mes commandes"</a> puis cliquez sur “Vous avez reçu un bon cadeau ? <u>Réserver maintenant</u>”.</p>
+<p>Renseignez ensuite les informations du coupon (le Code Groupon et le code de sécurité) et validez pour choisir la date et heure souhaitées pour la réservation.</p>
+<p>Votre réservation est instantanément prise en compte, il est donc inutile d'appeler. Une confirmation vous sera envoyée par e-mail.</p>
+<p>Présentez le coupon à l’arrivée.</p>)
+
+
+Sans réservation : <p>Sans réservation. Présentez le coupon à l'arrivée.</p>
+Sans réservation - à échanger : <p>Sans réservation. Se présenter muni du coupon imprimé à l'accueil pour l'échanger contre un billet.</p>
+
+--- KAM ---
+
+Livraison : oui / non
+Délais de livraison : 2 jours, 3, jours, 4 jours, 5 jours, texte libre 
+Frais de livraison : oui / non
+Si oui, montant : texte libre 
+Texte : 
+<li><strong>Livraison : </strong> sous @délailivraison en France métropolitaine (hors DOM-TOM) après validation de votre commande. Frais de port en sus : @montant €.</li>
+
+--- Annulation ---
+*Après achat*
+
+Annulation : oui / non
+Délais : 6 heures, 12 heures, 24, heures, 48, heures, 72 heures, texte libre
+Texte : 
+Avec délais :
+<li><strong>Modification ou annulation de la réservation :</strong> toute modification ou annulation de votre réservation doit être effectuée au moins @annulation à l'avance. Passé ce délai, le coupon sera considéré comme utilisé, sans possibilité de remboursement ou d'échange. De même, une arrivée tardive peut entraîner l'annulation de la réservation, par conséquent le coupon sera considéré comme utilisé.</li>
+Si GLive : <li><b>Modification ou annulation :</strong> non échangeable, non remboursable sauf en cas d'annulation des représentations. Si l'événement est annulé pour une raison indépendante de la volonté du partenaire ou un cas de force majeure (y compris toute recommandation du ministère de la Santé), Groupon procèdera au remboursement intégral de la somme que vous avez payée. Si l'événement est reporté, Groupon ne vous remboursera que si vous le demandez. En cas d’indisponibilité des artistes, la direction se réserve le droit de modifier le présent programme sans en altérer la qualité.</li>
+Si KAM : <li><strong>Modification ou annulation :</strong> une fois l'achat effectué sur le site du vendeur, aucune modification ni annulation ne sera possible.</li>
+
+--- Restaurant ---
+*Avant achat*
+
+Restaurant : oui / non
+Texte : <li>Les plats sont susceptibles de varier selon le marché, la saison et l'humeur du chef. Le cas échéant, les plats sont remplacés par des produits de gamme et de qualité équivalentes.</li>
+
+--- Informations additionnelles ---
+*Avant achat*
+
+Offre cumulable : oui / non
+Si non : <li>Offre non cumulable avec d'autres promotions.</li>
+
+--- Texte libre ---
+
+Champs libre sous-liste :
+Champ 1
+Champ 2
+Champ 3
+
+
+______________ SECTION REDEMPTION INSTRUCTIONS ______________
+*Se complète en fonction des informations remplies précédemment*
+
+
+Si réservation par téléphone :
+<p><strong>Réservation exclusivement par téléphone.</strong></p>
+<p>Réservation obligatoire. Appelez le <a href="tel:téléphone" rel="noopener noreferrer">@téléphone</a> en donnant les codes figurant sur votre coupon. Présentez votre coupon à l'arrivée.</p>
+---
+<p>Réservation exclusivement par téléphone.</strong></p>
+<p>Réservation obligatoire au moins @heure réservation heures à l'avance. Appelez le <a href="tel:téléphone" rel="noopener noreferrer">@téléphone</a> en donnant les codes figurant sur votre coupon. Présentez votre coupon à l'arrivée.</p>
+
+Si réservation par e-mail :
+<p><strong>Réservation exclusivement par e-mail.</strong></p>
+<p>Réservation obligatoire à <a href="mailto:email" rel="noopener noreferrer">email</a> en indiquant vos noms, prénoms ainsi que les codes figurant sur votre coupon. Présentez votre coupon à l'arrivée.</p>
+---
+<p><strong>Réservation exclusivement par e-mail.</strong></p>
+<p>Réservation obligatoire au moins @heure réservation heures à l'avance à <a href="mailto:email" rel="noopener noreferrer">email</a> en indiquant vos noms, prénoms ainsi que les codes figurant sur votre coupon. Présentez votre coupon à l'arrivée.</p>
+
+
+Si réservation sur web:
+<p><strong>Réservation obligatoire exclusivement sur le site du vendeur</strong>, au moins @heureréservation à l'avance.</p>
+<p>Rendez-vous sur <a href="https://site" target="_blank" rel="noopener noreferrer" title="En cliquant sur ce lien, vous accédez à un site tiers non affilié à Groupon">texte du lien</a>. Entrez votre code Groupon dans le champ prévu à cet effet.</p>
+---
+<p><strong>Réservation obligatoire exclusivement sur le site du vendeur.</strong></p>
+<p>Rendez-vous sur <a href="https://site" target="_blank" rel="noopener noreferrer" title="En cliquant sur ce lien, vous accédez à un site tiers non affilié à Groupon">texte du lien</a>. Entrez votre code Groupon dans le champ prévu à cet effet.</p>
+
+Pour les KAM :
+<p><strong>Échange du coupon exclusivement sur le site du vendeur</strong>, au moins @heureréservation à l'avance.</p>
+<p>Rendez-vous sur <a href="https://site" target="_blank" rel="noopener noreferrer" title="En cliquant sur ce lien, vous accédez à un site tiers non affilié à Groupon">texte du lien</a>. Entrez votre code Groupon dans le champ prévu à cet effet.</p>
+---
+<p><strong>Échange du coupon exclusivement sur le site du vendeur.</strong></p>
+<p>Rendez-vous sur <a href="https://site" target="_blank" rel="noopener noreferrer" title="En cliquant sur ce lien, vous accédez à un site tiers non affilié à Groupon">texte du lien</a>. Entrez votre code Groupon dans le champ prévu à cet effet.</p>
+
+
+Si Booking Tool - Local FR  : champ pour renseigner le permalink de l'offre (<p>Réservation obligatoire au moins @heure réservation heures à l'avance. Consultez <a href="https://www.groupon.fr/reservations/preview?dealid=@permalink&amp;utm_source=Groupon&amp;utm_medium=HP&amp;utm_campaign=PreviewBT" target="_blank" rel="noopener noreferrer" title="Consultez les disponibilités">les disponibilités</a>.</p>
+<p><strong>La réservation en ligne est obligatoire</strong> au moment de l’achat ou depuis l’espace <a title="Consultez les disponibilités" target="_blank" href="https://www.groupon.fr/reservations/">"Mes commandes"</a> puis cliquez sur “Vous avez reçu un bon cadeau ? <u>Réserver maintenant</u>”.</p>
+<p>Renseignez ensuite les informations du coupon (le Code Groupon et le code de sécurité) et validez pour choisir la date et heure souhaitées pour la réservation.</p>
+<p>Votre réservation est instantanément prise en compte, il est donc inutile d'appeler. Une confirmation vous sera envoyée par e-mail.</p>
+<p>Présentez le coupon à l’arrivée.</p>)
+
+Si Booking Tool - Local BE  : champ pour renseigner le permalink de l'offre (<p>Réservation obligatoire au moins @heure réservation heures à l'avance. Consultez <a href="https://www.groupon.be/reservations/preview?dealid=@permalink&amp;utm_source=Groupon&amp;utm_medium=HP&amp;utm_campaign=PreviewBT" target="_blank" rel="noopener noreferrer" title="Consultez les disponibilités">les disponibilités</a>.</p>
+<p><strong>La réservation en ligne est obligatoire</strong> au moment de l’achat ou depuis l’espace <a title="Consultez les disponibilités" target="_blank" href="https://www.groupon.be/reservations/">"Mes commandes"</a> puis cliquez sur “Vous avez reçu un bon cadeau ? <u>Réserver maintenant</u>”.</p>
+<p>Renseignez ensuite les informations du coupon (le Code Groupon et le code de sécurité) et validez pour choisir la date et heure souhaitées pour la réservation.</p>
+<p>Votre réservation est instantanément prise en compte, il est donc inutile d'appeler. Une confirmation vous sera envoyée par e-mail.</p>
+<p>Présentez le coupon à l’arrivée.</p>)
+
+
+______________ DANS LA DESCRIPTION ______________
+*Se complète en fonction des informations remplies précédemment*
+
+Si réservation via web, afficher la bannière :
+<div style="border:0 solid #ddd;border-radius:20px;padding:8px;background:#f3f4f6;color:#111;margin-bottom:1em;color: #666666; display: flex; align-items: center; font-size: 15px; padding-bottom: 10px; line-height: 1.5;">
+<div style="text-align: center; overflow: hidden;"><strong>Après l’achat de ce deal, vous devrez vous rendre sur le site web indiqué sur votre coupon afin de l'échanger.</strong></div>
+</div>
+
+Si Booking Tool - Local FR, afficher les boutons :
+
+<!-- CODE V3 --><p style="margin-top: 20px; margin-bottom: 10px; text-align: center; font-weight:bold;"><a href="https://www.groupon.fr/reservations/preview?dealid=@permalink&utm_source=Groupon&utm_medium=HP&utm_campaign=PreviewBT" target="_blank" style="background-color: #0094ea45; color: #fff; cursor: pointer; display: inline-block; font-size: 15px; outline: 0; line-height: 1.4; padding: .5em 2em; border-radius: 30px; text-align: center; text-decoration: none; transition: background-color .2s ease-out,border-color .2s ease-out,color .2s ease-out; margin: 0 10px 10px 0; min-width: 175px;">Disponibilités</a><a href="https://www.groupon.fr/reservations/?utm_source=Groupon&utm_medium=HP&utm_campaign=Reservation" style="background-color: #52a31851; cursor: pointer; color: #fff; display: inline-block; font-size: 15px; outline: 0; line-height: 1.4; padding: .5em 2em; border-radius: 30px; text-align: center; text-decoration: none; transition: background-color .2s ease-out,border-color .2s ease-out,color .2s ease-out; min-width: 175px; margin-bottom: 10px;" target="_blank">Réservation</a></p>
+
+Si Booking Tool - Local BE, afficher les boutons :
+
+<!-- CODE V3 --><p style="margin-top: 20px; margin-bottom: 10px; text-align: center; font-weight:bold;"><a href="https://www.groupon.be/reservations/preview?dealid=@permalink&utm_source=Groupon&utm_medium=HP&utm_campaign=PreviewBT" target="_blank" style="background-color: #0094ea45; color: #fff; cursor: pointer; display: inline-block; font-size: 15px; outline: 0; line-height: 1.4; padding: .5em 2em; border-radius: 30px; text-align: center; text-decoration: none; transition: background-color .2s ease-out,border-color .2s ease-out,color .2s ease-out; margin: 0 10px 10px 0; min-width: 175px;">Disponibilités</a><a href="https://www.groupon.be/reservations/?utm_source=Groupon&utm_medium=HP&utm_campaign=Reservation" style="background-color: #52a31851; cursor: pointer; color: #fff; display: inline-block; font-size: 15px; outline: 0; line-height: 1.4; padding: .5em 2em; border-radius: 30px; text-align: center; text-decoration: none; transition: background-color .2s ease-out,border-color .2s ease-out,color .2s ease-out; min-width: 175px; margin-bottom: 10px;" target="_blank">Réservation</a></p>
