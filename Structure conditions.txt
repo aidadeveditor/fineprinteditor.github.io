@@ -176,13 +176,13 @@ Pour les KAM :
 <p>Rendez-vous sur <a href="https://site" target="_blank" rel="noopener noreferrer" title="En cliquant sur ce lien, vous accédez à un site tiers non affilié à Groupon">texte du lien</a>. Entrez votre code Groupon dans le champ prévu à cet effet.</p>
 
 
-Si Booking Tool - Local FR  : champ pour renseigner le permalink de l'offre (<p>Réservation obligatoire au moins @heure réservation heures à l'avance. Consultez <a href="https://www.groupon.fr/reservations/preview?dealid=@permalink&amp;utm_source=Groupon&amp;utm_medium=HP&amp;utm_campaign=PreviewBT" target="_blank" rel="noopener noreferrer" title="Consultez les disponibilités">les disponibilités</a>.</p>
+Si Booking Tool - Local FR  : champ pour renseigner le permalink de l'offre (<p>Réservation obligatoire au moins @heure réservation heures à l'avance. Consultez <a href="https://www.groupon.fr/reservations/preview?dealid=@permalink&amp;utm_source=Groupon&amp;utm_medium=HP&amp;utm_campaign=PreviewBT" target="_blank" rel="noopener noreferrer" title="Votre historique de commandes">les disponibilités</a>.</p>
 <p><strong>La réservation en ligne est obligatoire</strong> au moment de l’achat ou depuis l’espace <a title="Consultez les disponibilités" target="_blank" href="https://www.groupon.fr/reservations/">"Mes commandes"</a> puis cliquez sur “Vous avez reçu un bon cadeau ? <u>Réserver maintenant</u>”.</p>
 <p>Renseignez ensuite les informations du coupon (le Code Groupon et le code de sécurité) et validez pour choisir la date et heure souhaitées pour la réservation.</p>
 <p>Votre réservation est instantanément prise en compte, il est donc inutile d'appeler. Une confirmation vous sera envoyée par e-mail.</p>
 <p>Présentez le coupon à l’arrivée.</p>)
 
-Si Booking Tool - Local BE  : champ pour renseigner le permalink de l'offre (<p>Réservation obligatoire au moins @heure réservation heures à l'avance. Consultez <a href="https://www.groupon.be/reservations/preview?dealid=@permalink&amp;utm_source=Groupon&amp;utm_medium=HP&amp;utm_campaign=PreviewBT" target="_blank" rel="noopener noreferrer" title="Consultez les disponibilités">les disponibilités</a>.</p>
+Si Booking Tool - Local BE  : champ pour renseigner le permalink de l'offre (<p>Réservation obligatoire au moins @heure réservation heures à l'avance. Consultez <a href="https://www.groupon.be/reservations/preview?dealid=@permalink&amp;utm_source=Groupon&amp;utm_medium=HP&amp;utm_campaign=PreviewBT" target="_blank" rel="noopener noreferrer" title="Votre historique de commandes">les disponibilités</a>.</p>
 <p><strong>La réservation en ligne est obligatoire</strong> au moment de l’achat ou depuis l’espace <a title="Consultez les disponibilités" target="_blank" href="https://www.groupon.be/reservations/">"Mes commandes"</a> puis cliquez sur “Vous avez reçu un bon cadeau ? <u>Réserver maintenant</u>”.</p>
 <p>Renseignez ensuite les informations du coupon (le Code Groupon et le code de sécurité) et validez pour choisir la date et heure souhaitées pour la réservation.</p>
 <p>Votre réservation est instantanément prise en compte, il est donc inutile d'appeler. Une confirmation vous sera envoyée par e-mail.</p>
