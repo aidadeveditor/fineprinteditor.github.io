@@ -1,5 +1,7 @@
 Type de deals : Local FR, Local BE, KAM, GLive
 
+<!-- Conditions -->
+
 --- WARNINGS ---
 *Avant achat*
 
@@ -135,7 +137,7 @@ Champ 1
 Champ 2
 Champ 3
 
-
+<!-- Redemption Instructions -->
 ______________ SECTION REDEMPTION INSTRUCTIONS ______________
 *Se complète en fonction des informations remplies précédemment*
 
@@ -184,7 +186,7 @@ Si Booking Tool - Local BE  :
 <p>Votre réservation est instantanément prise en compte, il est donc inutile d'appeler. Une confirmation vous sera envoyée par e-mail.</p>
 <p>Présentez le coupon à l’arrivée.</p>
 
-
+<!-- Description -->
 ______________ DANS LA DESCRIPTION ______________
 *Se complète en fonction des informations remplies précédemment*
 
