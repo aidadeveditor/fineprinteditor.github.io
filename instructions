@@ -4,6 +4,7 @@
 - Ajouter la fonction de supprimer les données d'une ligne (une petite croix rouge à chaque étape)
 - Dans les méthode de réservation, ajoute SMS
 - Pour les méthodes de réservations, il faut pouvoir en sélectionner plusieurs (dans les cas où la réservation peut se faire par téléphone, SMS et e-mail par exemple)
+- Dans les conditions, attention les données de contact (téléphone, e-mail, web) ne doivent pas apparaitre, seul le texte.
 - Au niveau de la réservation, correction :
 Si Booking Tool - Local FR  : 
 <p><strong>Réservation obligatoire au moins @heure réservation heures à l'avance.</strong> Consultez <a href="https://www.groupon.fr/reservations/preview?dealid=@permalink&amp;utm_source=Groupon&amp;utm_medium=HP&amp;utm_campaign=PreviewBT" target="_blank" rel="noopener noreferrer" title="Consultez les disponibilités">les disponibilités</a> et <a href="https://www.groupon.fr/reservations/" target="_blank" rel="noopener noreferrer">réserver en ligne</a> avec les codes Groupon figurant sur le coupon. <strong>La réservation en ligne est obligatoire.</strong> Votre réservation est instantanément prise en compte, il n'est donc pas nécessaire d'appeler.</p>
