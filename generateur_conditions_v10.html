@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Générateur Conditions Groupon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green:#53A318;--green-dark:#3d7a10;--green-light:#e8f5df;
+      --bg:#f4f6f8;--panel:#ffffff;--text:#1a1a1a;--muted:#6b7280;
+      --border:#e2e5ea;--radius:8px;--shadow:0 2px 8px rgba(0,0,0,0.07);
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);display:flex;height:100vh;overflow:hidden;font-size:14px;}
+    .left{flex:1;overflow-y:auto;padding:20px 24px;display:flex;flex-direction:column;gap:12px;}
+    .right{width:420px;background:#1a1a2e;display:flex;flex-direction:column;padding:16px;gap:12px;border-left:1px solid #2d2d44;}
+
+    /* SECTIONS */
+    .section{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);position:relative;}
+    .section-header{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+    .section-tag{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:2px 8px;border-radius:99px;}
+    .tag-avant{background:#fff3e0;color:#e65100;}
+    .tag-apres{background:#e8eaf6;color:#3949ab;}
+    .section-title{font-size:13px;font-weight:700;color:var(--text);}
+
+    /* Clear section button */
+    .btn-clear-section{position:absolute;top:12px;right:12px;background:none;border:none;cursor:pointer;color:#e5534b;font-size:16px;line-height:1;opacity:.6;transition:opacity .15s;}
+    .btn-clear-section:hover{opacity:1;}
+
+    .field{margin-bottom:12px;}
+    .field:last-child{margin-bottom:0;}
+    .field label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.3px;}
+
+    /* PILLS (radio AND checkbox) */
+    .pills{display:flex;flex-wrap:wrap;gap:6px;}
+    .pills input[type="radio"],.pills input[type="checkbox"]{display:none;}
+    .pills label{font-size:13px;padding:5px 12px;border:1.5px solid var(--border);border-radius:99px;cursor:pointer;transition:all .15s;background:white;color:var(--text);font-weight:500;}
+    .pills input:checked+label{background:var(--green-light);border-color:var(--green);color:var(--green);font-weight:600;}
+
+    input[type="text"],input[type="date"],select,textarea{width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:6px;font-family:inherit;font-size:13px;color:var(--text);background:white;transition:border-color .15s;}
+    input:focus,select:focus,textarea:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(83,163,24,.1);}
+
+    .row{display:flex;gap:10px;}
+    .row>*{flex:1;}
+    .sub{padding-left:14px;border-left:2px solid var(--green);margin-top:10px;display:flex;flex-direction:column;gap:10px;}
+    .hidden{display:none!important;}
+    .check-row{display:flex;align-items:flex-start;gap:8px;cursor:pointer;}
+    .check-row input[type="checkbox"]{display:block!important;width:15px;height:15px;flex-shrink:0;margin-top:2px;accent-color:var(--green);cursor:pointer;}
+    .check-row span{font-size:13px;line-height:1.4;}
+    .sep-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);padding:4px 0 8px;border-top:1px solid var(--border);margin-top:12px;}
+
+    /* STEPPER */
+    .stepper{display:flex;align-items:center;gap:0;border:1.5px solid var(--border);border-radius:6px;overflow:hidden;width:fit-content;}
+    .stepper button{background:var(--bg);border:none;cursor:pointer;font-size:16px;padding:4px 10px;color:var(--text);transition:background .15s;font-weight:700;}
+    .stepper button:hover{background:var(--green-light);}
+    .stepper input{border:none;border-left:1.5px solid var(--border);border-right:1.5px solid var(--border);border-radius:0;width:48px;text-align:center;padding:4px 6px;font-size:14px;font-weight:600;}
+    .stepper input:focus{box-shadow:none;border-color:var(--border);}
+
+    /* RIGHT */
+    .right-title{color:#9ca3af;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+    .preview{flex:1;background:#111827;border-radius:6px;padding:16px;overflow-y:auto;font-size:13px;line-height:1.7;color:#e5e7eb;}
+    .preview ul{padding-left:18px;}
+    .preview li{margin-bottom:6px;}
+    .preview p{margin-bottom:8px;}
+    .preview strong,.preview b{color:#86efac;}
+    .preview .sep{border-top:1px solid #374151;margin:16px 0 12px;padding-top:12px;}
+    .preview .sep-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#6b7280;margin-bottom:8px;}
+
+    .code-area{height:160px;background:#0d1117;color:#79c0ff;font-family:'Courier New',monospace;font-size:12px;border:1px solid #30363d;border-radius:6px;padding:12px;resize:none;}
+    .btn-row{display:flex;gap:8px;}
+    .btn-copy{flex:1;background:var(--green);color:white;border:none;padding:11px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:6px;}
+    .btn-copy:hover{background:var(--green-dark);}
+    .btn-reset{background:#374151;color:#d1d5db;border:none;padding:11px 16px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s;}
+    .btn-reset:hover{background:#4b5563;}
+    .toast{position:fixed;bottom:20px;right:20px;background:#1f2937;color:white;padding:10px 20px;border-radius:6px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .3s;z-index:99;}
+    .page-header{display:flex;align-items:center;justify-content:space-between;padding:0 0 8px;}
+    .page-header h1{font-size:16px;font-weight:700;color:var(--green);}
+  </style>
+</head>
+<body>
+
+<div class="left">
+  <div class="page-header">
+    <h1>📋 Générateur de Conditions Groupon</h1>
+    <button class="btn-reset" onclick="resetAll()" style="padding:7px 14px;font-size:12px;">↺ Reset</button>
+  </div>
+
+  <!-- TYPE DE DEAL -->
+  <div class="section" id="sec_deal">
+    <button class="btn-clear-section" onclick="clearSection('sec_deal')" title="Effacer">✕</button>
+    <div class="section-header"><span class="section-title">🌍 Type de deal</span></div>
+    <div class="pills">
+      <input type="radio" name="deal" id="d_lfr" value="Local FR" onchange="gen()" checked><label for="d_lfr">Local FR</label>
+      <input type="radio" name="deal" id="d_lbe" value="Local BE" onchange="gen()"><label for="d_lbe">Local BE</label>
+      <input type="radio" name="deal" id="d_kam" value="KAM" onchange="gen()"><label for="d_kam">KAM</label>
+      <input type="radio" name="deal" id="d_gl" value="GLive" onchange="gen()"><label for="d_gl">G-Live</label>
+    </div>
+  </div>
+
+  <!-- WARNINGS -->
+  <div class="section" id="sec_warn">
+    <button class="btn-clear-section" onclick="clearSection('sec_warn')" title="Effacer">✕</button>
+    <div class="section-header"><span class="tag tag-avant section-tag">Avant achat</span><span class="section-title">⚠️ Warnings / Exclusions</span></div>
+    <div class="field">
+      <label>Exclusions</label>
+      <div class="pills">
+        <input type="radio" name="excl" id="excl_oui" value="oui" onchange="ui();gen()"><label for="excl_oui">Oui</label>
+        <input type="radio" name="excl" id="excl_non" value="non" onchange="ui();gen()" checked><label for="excl_non">Non</label>
+      </div>
+      <div id="sub_excl" class="sub hidden">
+        <input type="text" id="excl_txt" placeholder="Texte libre (@Exclusions)..." oninput="gen()">
+      </div>
+    </div>
+    <div class="field">
+      <label class="check-row"><input type="checkbox" id="excl_femmes" onchange="gen()"><span>Offre exclusivement réservée aux femmes.</span></label>
+    </div>
+  </div>
+
+  <!-- VALIDITE -->
+  <div class="section" id="sec_val">
+    <button class="btn-clear-section" onclick="clearSection('sec_val')" title="Effacer">✕</button>
+    <div class="section-header"><span class="tag tag-apres section-tag">Après achat</span><span class="section-title">📅 Validité</span></div>
+    <div class="field">
+      <label>Type de validité</label>
+      <div class="pills">
+        <input type="radio" name="val_cat" id="vc_per" value="periode" onchange="ui();gen()" checked><label for="vc_per">Période</label>
+        <input type="radio" name="val_cat" id="vc_fix" value="fixe" onchange="ui();gen()"><label for="vc_fix">Date fixe</label>
+        <input type="radio" name="val_cat" id="vc_ran" value="range" onchange="ui();gen()"><label for="vc_ran">Du… au…</label>
+        <input type="radio" name="val_cat" id="vc_uni" value="unique" onchange="ui();gen()"><label for="vc_uni">Date unique</label>
+      </div>
+    </div>
+    <div id="sub_val_per" class="sub">
+      <div class="field">
+        <label>Durée</label>
+        <div class="pills">
+          <input type="radio" name="val_per" id="vp_1" value="1 mois (30 jours)" onchange="ui();gen()"><label for="vp_1">1 mois</label>
+          <input type="radio" name="val_per" id="vp_2" value="2 mois (60 jours)" onchange="ui();gen()"><label for="vp_2">2 mois</label>
+          <input type="radio" name="val_per" id="vp_3" value="3 mois (90 jours)" onchange="ui();gen()"><label for="vp_3">3 mois</label>
+          <input type="radio" name="val_per" id="vp_4" value="4 mois (120 jours)" onchange="ui();gen()"><label for="vp_4">4 mois</label>
+          <input type="radio" name="val_per" id="vp_5" value="5 mois (150 jours)" onchange="ui();gen()"><label for="vp_5">5 mois</label>
+          <input type="radio" name="val_per" id="vp_6" value="6 mois (180 jours)" onchange="ui();gen()"><label for="vp_6">6 mois</label>
+          <input type="radio" name="val_per" id="vp_lib" value="libre" onchange="ui();gen()"><label for="vp_lib">Texte libre</label>
+        </div>
+      </div>
+      <input type="text" id="val_per_txt" class="hidden" placeholder="Ex: 90 jours..." oninput="gen()">
+    </div>
+    <div id="sub_val_fix" class="sub hidden">
+      <label style="font-size:12px;color:var(--muted);">Calendrier ou texte libre</label>
+      <div class="row">
+        <input type="date" id="val_fix_date" onchange="syncDate('val_fix_date','val_fix_txt');gen()">
+        <input type="text" id="val_fix_txt" placeholder="ou texte libre" oninput="gen()">
+      </div>
+    </div>
+    <div id="sub_val_ran" class="sub hidden">
+      <div class="row">
+        <div>
+          <label style="font-size:12px;color:var(--muted);">Date début</label>
+          <input type="date" id="val_ran_d1" onchange="syncDate('val_ran_d1','val_ran_t1');gen()">
+          <input type="text" id="val_ran_t1" placeholder="ou texte libre" oninput="gen()" style="margin-top:6px;">
+        </div>
+        <div>
+          <label style="font-size:12px;color:var(--muted);">Date fin</label>
+          <input type="date" id="val_ran_d2" onchange="syncDate('val_ran_d2','val_ran_t2');gen()">
+          <input type="text" id="val_ran_t2" placeholder="ou texte libre" oninput="gen()" style="margin-top:6px;">
+        </div>
+      </div>
+    </div>
+    <div id="sub_val_uni" class="sub hidden">
+      <div class="row">
+        <input type="date" id="val_uni_date" onchange="syncDate('val_uni_date','val_uni_txt');gen()">
+        <input type="text" id="val_uni_txt" placeholder="ou texte libre" oninput="gen()">
+      </div>
+    </div>
+    <div class="sep-label">Hors validité (exclusions de dates)</div>
+    <input type="text" id="hors_val" placeholder="Ex: Hors jours fériés..." oninput="gen()">
+  </div>
+
+  <!-- HORAIRES -->
+  <div class="section" id="sec_hor">
+    <button class="btn-clear-section" onclick="clearSection('sec_hor')" title="Effacer">✕</button>
+    <div class="section-header"><span class="tag tag-apres section-tag">Après achat</span><span class="section-title">🕐 Horaires</span></div>
+    <div class="pills">
+      <input type="radio" name="hor" id="hor_oui" value="oui" onchange="ui();gen()"><label for="hor_oui">Oui</label>
+      <input type="radio" name="hor" id="hor_non" value="non" onchange="ui();gen()" checked><label for="hor_non">Non</label>
+    </div>
+    <div id="sub_hor" class="sub hidden">
+      <input type="text" id="hor_txt" placeholder="Ex: du lundi au vendredi de 9h à 18h..." oninput="gen()">
+    </div>
+  </div>
+
+  <!-- LIMITE D'ACHAT -->
+  <div class="section" id="sec_lim">
+    <button class="btn-clear-section" onclick="clearSection('sec_lim')" title="Effacer">✕</button>
+    <div class="section-header"><span class="tag tag-avant section-tag">Avant achat</span><span class="section-title">🛍️ Limite d'achat de coupons</span></div>
+    <div class="field">
+      <label>Type de limite</label>
+      <div class="pills">
+        <input type="radio" name="lim" id="lim_off" value="offrir" onchange="ui();gen()"><label for="lim_off">Par personne + offrir</label>
+        <input type="radio" name="lim" id="lim_per" value="personne" onchange="ui();gen()"><label for="lim_per">Par personne seulement</label>
+        <input type="radio" name="lim" id="lim_nolim" value="illimite" onchange="ui();gen()"><label for="lim_nolim">Pas de limite</label>
+      </div>
+    </div>
+    <div id="sub_lim_num" class="sub hidden">
+      <div class="row">
+        <div>
+          <label style="font-size:12px;color:var(--muted);">Nb coupons / personne</label>
+          <div class="stepper">
+            <button type="button" onclick="stepNum('lim_num',-1)">−</button>
+            <input type="text" id="lim_num" value="1" oninput="gen()" readonly>
+            <button type="button" onclick="stepNum('lim_num',1)">+</button>
+          </div>
+        </div>
+        <div id="sub_lim_off_nb" class="hidden">
+          <label style="font-size:12px;color:var(--muted);">Nb supplémentaires pour offrir</label>
+          <div class="stepper">
+            <button type="button" onclick="stepNum('lim_off_nb',-1)">−</button>
+            <input type="text" id="lim_off_nb" value="1" oninput="gen()" readonly>
+            <button type="button" onclick="stepNum('lim_off_nb',1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RACHAT -->
+  <div class="section" id="sec_rac">
+    <button class="btn-clear-section" onclick="clearSection('sec_rac')" title="Effacer">✕</button>
+    <div class="section-header"><span class="tag tag-apres section-tag">Après achat</span><span class="section-title">🔄 Clause de rachat</span></div>
+    <div class="pills">
+      <input type="radio" name="rac" id="rac_oui" value="oui" onchange="ui();gen()"><label for="rac_oui">Oui</label>
+      <input type="radio" name="rac" id="rac_non" value="non" onchange="ui();gen()" checked><label for="rac_non">Non</label>
+    </div>
+    <div id="sub_rac" class="sub hidden">
+      <label style="font-size:12px;color:var(--muted);">Fréquence de rachat</label>
+      <div class="pills">
+        <input type="radio" name="rac_per" id="rp_1" value="1 mois (30 jours)" onchange="ui();gen()"><label for="rp_1">1 mois</label>
+        <input type="radio" name="rac_per" id="rp_2" value="2 mois (60 jours)" onchange="ui();gen()"><label for="rp_2">2 mois</label>
+        <input type="radio" name="rac_per" id="rp_3" value="3 mois (90 jours)" onchange="ui();gen()"><label for="rp_3">3 mois</label>
+        <input type="radio" name="rac_per" id="rp_4" value="4 mois (120 jours)" onchange="ui();gen()"><label for="rp_4">4 mois</label>
+        <input type="radio" name="rac_per" id="rp_5" value="5 mois (150 jours)" onchange="ui();gen()"><label for="rp_5">5 mois</label>
+        <input type="radio" name="rac_per" id="rp_6" value="6 mois (180 jours)" onchange="ui();gen()"><label for="rp_6">6 mois</label>
+        <input type="radio" name="rac_per" id="rp_lib" value="libre" onchange="ui();gen()"><label for="rp_lib">Texte libre</label>
+      </div>
+      <input type="text" id="rac_per_txt" class="hidden" placeholder="Ex: 45 jours..." oninput="gen()">
+    </div>
+  </div>
+
+  <!-- RÉSERVATION -->
+  <div class="section" id="sec_res">
+    <button class="btn-clear-section" onclick="clearSection('sec_res')" title="Effacer">✕</button>
+    <div class="section-header"><span class="tag tag-apres section-tag">Après achat</span><span class="section-title">📞 Réservation</span></div>
+    <div class="field">
+      <label>Méthode(s) — sélection multiple possible</label>
+      <div class="pills">
+        <input type="checkbox" id="res_tel" value="tel" onchange="ui();gen()"><label for="res_tel">Téléphone</label>
+        <input type="checkbox" id="res_sms" value="sms" onchange="ui();gen()"><label for="res_sms">SMS</label>
+        <input type="checkbox" id="res_em" value="email" onchange="ui();gen()"><label for="res_em">E-mail</label>
+        <input type="checkbox" id="res_web" value="web" onchange="ui();gen()"><label for="res_web">Web</label>
+        <input type="checkbox" id="res_bt" value="booking" onchange="ui();gen()"><label for="res_bt">Booking Tool</label>
+        <input type="checkbox" id="res_sans" value="sans" onchange="ui();gen()"><label for="res_sans">Sans réservation</label>
+        <input type="checkbox" id="res_sansch" value="sansech" onchange="ui();gen()"><label for="res_sansch">Sans réservation - à échanger</label>
+      </div>
+    </div>
+    <!-- Contact fields -->
+    <div id="sub_res_tel" class="sub hidden field">
+      <label style="font-size:12px;color:var(--muted);">Numéro téléphone</label>
+      <input type="text" id="res_tel_val" placeholder="Ex: 01 23 45 67 89" oninput="gen()">
+    </div>
+    <div id="sub_res_sms" class="sub hidden field">
+      <label style="font-size:12px;color:var(--muted);">Numéro SMS</label>
+      <input type="text" id="res_sms_val" placeholder="Ex: 06 12 34 56 78" oninput="gen()">
+    </div>
+    <div id="sub_res_em" class="sub hidden field">
+      <label style="font-size:12px;color:var(--muted);">Adresse e-mail</label>
+      <input type="text" id="res_em_val" placeholder="Ex: contact@partenaire.fr" oninput="gen()">
+    </div>
+    <div id="sub_res_web" class="sub hidden field">
+      <div class="row">
+        <div>
+          <label style="font-size:12px;color:var(--muted);">URL du site</label>
+          <input type="text" id="res_web_url" placeholder="https://..." oninput="gen()">
+        </div>
+        <div>
+          <label style="font-size:12px;color:var(--muted);">Texte du lien</label>
+          <input type="text" id="res_web_txt" placeholder="Ex: le site du partenaire" oninput="gen()">
+        </div>
+      </div>
+    </div>
+    <div id="sub_res_bt" class="sub hidden field">
+      <label style="font-size:12px;color:var(--muted);">Permalink de l'offre</label>
+      <input type="text" id="res_bt_perm" placeholder="Ex: mon-deal-slug" oninput="gen()">
+    </div>
+    <!-- Délai commun -->
+    <div id="sub_res_delai" class="sub field hidden">
+      <label>Délai de réservation</label>
+      <div class="pills">
+        <input type="radio" name="res_del" id="rd_0" value="" onchange="gen()" checked><label for="rd_0">Aucun</label>
+        <input type="radio" name="res_del" id="rd_6" value="6 heures" onchange="gen()"><label for="rd_6">6h</label>
+        <input type="radio" name="res_del" id="rd_12" value="12 heures" onchange="gen()"><label for="rd_12">12h</label>
+        <input type="radio" name="res_del" id="rd_24" value="24 heures" onchange="gen()"><label for="rd_24">24h</label>
+        <input type="radio" name="res_del" id="rd_48" value="48 heures" onchange="gen()"><label for="rd_48">48h</label>
+        <input type="radio" name="res_del" id="rd_72" value="72 heures" onchange="gen()"><label for="rd_72">72h</label>
+        <input type="radio" name="res_del" id="rd_lib" value="libre" onchange="ui();gen()"><label for="rd_lib">Texte libre</label>
+      </div>
+      <input type="text" id="res_del_txt" class="hidden" placeholder="Ex: 24 heures" oninput="gen()" style="margin-top:6px;">
+    </div>
+  </div>
+
+  <!-- KAM : LIVRAISON -->
+  <div id="sec_livraison" class="section hidden">
+    <button class="btn-clear-section" onclick="clearSection('sec_livraison')" title="Effacer">✕</button>
+    <div class="section-header"><span class="tag tag-apres section-tag">Après achat</span><span class="section-title">📦 Livraison (KAM)</span></div>
+    <div class="pills">
+      <input type="radio" name="liv" id="liv_oui" value="oui" onchange="ui();gen()"><label for="liv_oui">Oui</label>
+      <input type="radio" name="liv" id="liv_non" value="non" onchange="ui();gen()" checked><label for="liv_non">Non</label>
+    </div>
+    <div id="sub_liv" class="sub hidden">
+      <label style="font-size:12px;color:var(--muted);">Délai de livraison</label>
+      <div class="pills">
+        <input type="radio" name="liv_del" id="ld_2" value="2 jours" onchange="gen()"><label for="ld_2">2j</label>
+        <input type="radio" name="liv_del" id="ld_3" value="3 jours" onchange="gen()"><label for="ld_3">3j</label>
+        <input type="radio" name="liv_del" id="ld_4" value="4 jours" onchange="gen()"><label for="ld_4">4j</label>
+        <input type="radio" name="liv_del" id="ld_5" value="5 jours" onchange="gen()"><label for="ld_5">5j</label>
+        <input type="radio" name="liv_del" id="ld_lib" value="libre" onchange="ui();gen()"><label for="ld_lib">Libre</label>
+      </div>
+      <input type="text" id="liv_del_txt" class="hidden" placeholder="Ex: 7 jours" oninput="gen()" style="margin-top:6px;">
+      <div class="field" style="margin-top:8px;">
+        <label>Frais de livraison en sus ?</label>
+        <div class="pills">
+          <input type="radio" name="liv_frais" id="lf_oui" value="oui" onchange="ui();gen()"><label for="lf_oui">Oui</label>
+          <input type="radio" name="liv_frais" id="lf_non" value="non" onchange="ui();gen()" checked><label for="lf_non">Non</label>
+        </div>
+        <div id="sub_lf" class="sub hidden">
+          <input type="text" id="lf_montant" placeholder="Montant (€)" oninput="gen()">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANNULATION -->
+  <div class="section" id="sec_ann">
+    <button class="btn-clear-section" onclick="clearSection('sec_ann')" title="Effacer">✕</button>
+    <div class="section-header"><span class="tag tag-apres section-tag">Après achat</span><span class="section-title">❌ Annulation</span></div>
+    <div class="pills">
+      <input type="radio" name="ann" id="ann_oui" value="oui" onchange="ui();gen()"><label for="ann_oui">Oui</label>
+      <input type="radio" name="ann" id="ann_non" value="non" onchange="ui();gen()" checked><label for="ann_non">Non</label>
+    </div>
+    <div id="sub_ann" class="sub hidden">
+      <label style="font-size:12px;color:var(--muted);">Délai d'annulation</label>
+      <div class="pills">
+        <input type="radio" name="ann_del" id="ad_6" value="6 heures" onchange="gen()"><label for="ad_6">6h</label>
+        <input type="radio" name="ann_del" id="ad_12" value="12 heures" onchange="gen()"><label for="ad_12">12h</label>
+        <input type="radio" name="ann_del" id="ad_24" value="24 heures" onchange="gen()"><label for="ad_24">24h</label>
+        <input type="radio" name="ann_del" id="ad_48" value="48 heures" onchange="gen()"><label for="ad_48">48h</label>
+        <input type="radio" name="ann_del" id="ad_72" value="72 heures" onchange="gen()"><label for="ad_72">72h</label>
+        <input type="radio" name="ann_del" id="ad_lib" value="libre" onchange="ui();gen()"><label for="ad_lib">Texte libre</label>
+      </div>
+      <input type="text" id="ann_del_txt" class="hidden" placeholder="Ex: 5 jours..." oninput="gen()" style="margin-top:6px;">
+    </div>
+  </div>
+
+  <!-- RESTAURANT -->
+  <div class="section" id="sec_rest">
+    <button class="btn-clear-section" onclick="clearSection('sec_rest')" title="Effacer">✕</button>
+    <div class="section-header"><span class="tag tag-avant section-tag">Avant achat</span><span class="section-title">🍽️ Mention restaurant</span></div>
+    <label class="check-row"><input type="checkbox" id="rest_chk" onchange="gen()"><span>Ajouter la mention restaurant (plats susceptibles de varier...)</span></label>
+  </div>
+
+  <!-- INFOS ADDITIONNELLES -->
+  <div class="section" id="sec_info">
+    <button class="btn-clear-section" onclick="clearSection('sec_info')" title="Effacer">✕</button>
+    <div class="section-header"><span class="tag tag-avant section-tag">Avant achat</span><span class="section-title">ℹ️ Informations additionnelles</span></div>
+    <div class="field">
+      <label>Offre cumulable ?</label>
+      <div class="pills">
+        <input type="radio" name="cum" id="cum_oui" value="oui" onchange="gen()" checked><label for="cum_oui">Oui</label>
+        <input type="radio" name="cum" id="cum_non" value="non" onchange="gen()"><label for="cum_non">Non</label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Champs libres (un par ligne)</label>
+      <textarea id="extra_txt" rows="3" placeholder="Une info par ligne..."></textarea>
+    </div>
+  </div>
+</div>
+
+<!-- RIGHT -->
+<div class="right">
+  <div class="right-title">👁️ Aperçu visuel</div>
+  <div class="preview" id="preview"><em style="color:#6b7280;">Complétez le formulaire...</em></div>
+  <div class="right-title">💻 Code HTML généré</div>
+  <textarea class="code-area" id="code_out" readonly></textarea>
+  <div class="btn-row">
+    <button class="btn-copy" onclick="copyHTML()">📋 Copier <kbd style="font-size:11px;opacity:.7;">Ctrl+↵</kbd></button>
+    <button class="btn-reset" onclick="resetAll()">↺ Reset</button>
+  </div>
+</div>
+
+<div class="toast" id="toast">✅ Code copié !</div>
+
+<script>
+  const MOIS = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+
+  function syncDate(idDate, idTxt) {
+    const v = document.getElementById(idDate).value;
+    if (v) {
+      const [y,m,d] = v.split('-');
+      document.getElementById(idTxt).value = `${parseInt(d)} ${MOIS[parseInt(m)-1]} ${y}`;
+    }
+  }
+
+  function radio(name) { const el = document.querySelector(`input[name="${name}"]:checked`); return el ? el.value : null; }
+  function val(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+  function chk(id) { const el = document.getElementById(id); return el ? el.checked : false; }
+  function show(id, b) { const el = document.getElementById(id); if(el) el.classList.toggle('hidden', !b); }
+
+  // Get all checked reservation methods
+  function resId(v) {
+    if (v === 'email') return 'em';
+    if (v === 'sansech') return 'sansch';
+    if (v === 'booking') return 'bt';
+    return v;
+  }
+  function getResMethods() {
+    return ['tel','sms','email','web','booking','sans','sansech'].filter(v => chk(`res_${resId(v)}`));
+  }
+  function hasContactRes() {
+    return ['tel','sms','email','web','booking'].some(v => chk(`res_${resId(v)}`));
+  }
+
+  function stepNum(id, delta) {
+    const el = document.getElementById(id);
+    let v = parseInt(el.value) || 1;
+    v = Math.max(1, v + delta);
+    el.value = v;
+    gen();
+  }
+
+  function ui() {
+    show('sub_excl', radio('excl') === 'oui');
+    show('sub_val_per', radio('val_cat') === 'periode');
+    show('sub_val_fix', radio('val_cat') === 'fixe');
+    show('sub_val_ran', radio('val_cat') === 'range');
+    show('sub_val_uni', radio('val_cat') === 'unique');
+    show('val_per_txt', radio('val_per') === 'libre');
+    show('sub_hor', radio('hor') === 'oui');
+    const lim = radio('lim');
+    show('sub_lim_num', lim === 'offrir' || lim === 'personne');
+    show('sub_lim_off_nb', lim === 'offrir');
+    show('sub_rac', radio('rac') === 'oui');
+    show('rac_per_txt', radio('rac_per') === 'libre');
+    // Reservation
+    show('sub_res_tel', chk('res_tel'));
+    show('sub_res_sms', chk('res_sms'));
+    show('sub_res_em', chk('res_em'));
+    show('sub_res_web', chk('res_web'));
+    show('sub_res_bt', chk('res_bt'));
+    show('sub_res_delai', hasContactRes());
+    show('res_del_txt', radio('res_del') === 'libre');
+    // KAM
+    const deal = radio('deal');
+    show('sec_livraison', deal === 'KAM');
+    show('sub_liv', radio('liv') === 'oui');
+    show('liv_del_txt', radio('liv_del') === 'libre');
+    show('sub_lf', radio('liv_frais') === 'oui');
+    show('sub_ann', radio('ann') === 'oui');
+    show('ann_del_txt', radio('ann_del') === 'libre');
+  }
+
+  function pluriel(n, sing, plur) { return parseInt(n) > 1 ? plur : sing; }
+
+  function gen() {
+    const deal = radio('deal');
+    const methods = getResMethods();
+    const del = radio('res_del') === 'libre' ? val('res_del_txt') : radio('res_del');
+    let lis = [];
+    let paras = [];
+    let redemption = [];
+    let description_block = '';
+
+    // WARNINGS
+    if (radio('excl') === 'oui' && val('excl_txt'))
+      lis.push(`<li><strong>Exclusions / Éligibilité :</strong> ${val('excl_txt').replace(/\.$/, '')}.</li>`);
+    if (chk('excl_femmes'))
+      lis.push(`<li><strong>Éligibilité :</strong> offre exclusivement réservée aux femmes.</li>`);
+
+    // VALIDITE
+    const vcat = radio('val_cat');
+    let vtext = '';
+    if (vcat === 'periode') {
+      let per = radio('val_per') === 'libre' ? val('val_per_txt') : radio('val_per');
+      if (per) {
+        if (deal === 'KAM')
+          vtext = `dès la réception de votre coupon, vous avez ${per} à partir de la date d'achat pour valider votre commande/inscription en ligne sur le site du vendeur. Le coupon est uniquement valable pour l'option choisie au moment de l'achat.`;
+        else
+          vtext = `coupon valable ${per} à partir de la date d'achat. Le coupon est uniquement valable pour l'option choisie au moment de l'achat.`;
+      }
+    } else if (vcat === 'fixe') {
+      let fv = val('val_fix_txt');
+      if (fv) {
+        if (deal === 'KAM')
+          vtext = `dès la réception de votre coupon, vous avez jusqu'au ${fv} pour valider votre commande/inscription en ligne sur le site du vendeur. Le coupon est uniquement valable pour l'option choisie au moment de l'achat.`;
+        else
+          vtext = `coupon valable jusqu'au ${fv}. Le coupon est uniquement valable pour l'option choisie au moment de l'achat.`;
+      }
+    } else if (vcat === 'range') {
+      let d1 = val('val_ran_t1'), d2 = val('val_ran_t2');
+      if (d1 && d2) vtext = `coupon valable du ${d1} au ${d2} inclus. Le coupon est uniquement valable pour l'option choisie au moment de l'achat.`;
+    } else if (vcat === 'unique') {
+      let uv = val('val_uni_txt');
+      if (uv) vtext = `coupon valable le ${uv} (G-Live). Le coupon est uniquement valable pour l'option choisie au moment de l'achat.`;
+    }
+    if (vtext) lis.push(`<li><strong>Validité :</strong> ${vtext}</li>`);
+    if (val('hors_val')) lis.push(`<li>${val('hors_val')}</li>`);
+
+    // HORAIRES
+    if (radio('hor') === 'oui') {
+      if (methods.includes('booking')) {
+        const perm2 = val('res_bt_perm');
+        const domain2 = deal === 'Local BE' ? 'groupon.be' : 'groupon.fr';
+        const btUrl2 = `https://www.${domain2}/reservations/preview?dealid=${perm2}&amp;utm_source=Groupon&amp;utm_medium=HP&amp;utm_campaign=PreviewBT`;
+        lis.push(`<li><strong>Horaires :</strong> consultez <a href="${btUrl2}" target="_blank" rel="noopener noreferrer" title="Consultez les disponibilités">les disponibilités</a>.</li>`);
+      } else if (val('hor_txt')) {
+        const hasRes = methods.some(m => !['sans','sansech'].includes(m));
+        lis.push(`<li><strong>Horaires :</strong> ${hasRes ? 'sur rendez-vous ' : ''}${val('hor_txt')}.</li>`);
+      }
+    }
+
+    // LIMITES
+    const lim = radio('lim');
+    if (lim === 'illimite') {
+      lis.push(`<li><strong>Limite d'achat de coupons :</strong> plusieurs coupons par personne peuvent être achetés et échangés.</li>`);
+    } else if (lim === 'personne') {
+      const n = val('lim_num') || '1';
+      lis.push(`<li><strong>Limite d'achat de coupons :</strong> ${n} ${pluriel(n,'coupon','coupons')} par personne et par option.</li>`);
+    } else if (lim === 'offrir') {
+      const n = val('lim_num') || '1';
+      const s = val('lim_off_nb') || '1';
+      lis.push(`<li><strong>Limite d'achat de coupons :</strong> ${n} ${pluriel(n,'coupon','coupons')} par personne et par option, possibilité d'en acheter ${s} ${pluriel(s,'supplémentaire','supplémentaires')} pour offrir.</li>`);
+    }
+
+    // RACHAT
+    if (radio('rac') === 'oui') {
+      let rper = radio('rac_per') === 'libre' ? val('rac_per_txt') : radio('rac_per');
+      if (rper) lis.push(`<li><strong>Rachat :</strong> possibilité de rachat de coupon tous les ${rper}.</li>`);
+    }
+
+    // RÉSERVATION — conditions (sans coordonnées de contact)
+    for (const m of methods) {
+      if (m === 'tel') {
+        if (del)
+          lis.push(`<li><strong>Réservation obligatoire exclusivement par téléphone</strong> au moins ${del} à l'avance en suivant les indications figurant sur votre coupon. Présentez votre coupon à l'arrivée.</li>`);
+        else
+          lis.push(`<li><strong>Réservation obligatoire exclusivement par téléphone</strong> en suivant les indications figurant sur votre coupon. Présentez votre coupon à l'arrivée.</li>`);
+      } else if (m === 'sms') {
+        if (del)
+          lis.push(`<li><strong>Réservation obligatoire exclusivement par SMS</strong> au moins ${del} à l'avance en suivant les indications figurant sur votre coupon. Présentez votre coupon à l'arrivée.</li>`);
+        else
+          lis.push(`<li><strong>Réservation obligatoire exclusivement par SMS</strong> en suivant les indications figurant sur votre coupon. Présentez votre coupon à l'arrivée.</li>`);
+      } else if (m === 'email') {
+        if (del)
+          lis.push(`<li><strong>Réservation obligatoire exclusivement par e-mail</strong> au moins ${del} à l'avance en suivant les indications figurant sur votre coupon. Présentez votre coupon à l'arrivée.</li>`);
+        else
+          lis.push(`<li><strong>Réservation obligatoire exclusivement par e-mail</strong> en suivant les indications figurant sur votre coupon. Présentez votre coupon à l'arrivée.</li>`);
+      } else if (m === 'web') {
+        if (del)
+          lis.push(`<li><strong>Réservation obligatoire exclusivement en ligne</strong> au moins ${del} à l'avance en suivant le lien figurant sur votre coupon. Présentez votre coupon à l'arrivée.</li>`);
+        else
+          lis.push(`<li><strong>Réservation obligatoire exclusivement en ligne</strong> en suivant le lien figurant sur votre coupon. Présentez votre coupon à l'arrivée.</li>`);
+      } else if (m === 'booking') {
+        const perm = val('res_bt_perm');
+        const domain = deal === 'Local BE' ? 'groupon.be' : 'groupon.fr';
+        const btUrl = `https://www.${domain}/reservations/preview?dealid=${perm}&amp;utm_source=Groupon&amp;utm_medium=HP&amp;utm_campaign=PreviewBT`;
+        const btRes = `https://www.${domain}/reservations/`;
+        if (del)
+          paras.push(`<p><strong>Réservation obligatoire au moins ${del} à l'avance.</strong> Consultez <a href="${btUrl}" target="_blank" rel="noopener noreferrer" title="Consultez les disponibilités">les disponibilités</a> et <a href="${btRes}" target="_blank" rel="noopener noreferrer">réserver en ligne</a> avec les codes Groupon figurant sur le coupon. <strong>La réservation en ligne est obligatoire.</strong> Votre réservation est instantanément prise en compte, il n'est donc pas nécessaire d'appeler.</p>`);
+        else
+          paras.push(`<p>Consultez <a href="${btUrl}" target="_blank" rel="noopener noreferrer" title="Consultez les disponibilités">les disponibilités</a> et <a href="${btRes}" target="_blank" rel="noopener noreferrer">réserver en ligne</a> avec les codes Groupon figurant sur le coupon. <strong>La réservation en ligne est obligatoire.</strong> Votre réservation est instantanément prise en compte, il n'est donc pas nécessaire d'appeler.</p>`);
+      } else if (m === 'sans') {
+        lis.push(`<li><strong>Réservation :</strong> sans réservation. Présentez le coupon à l'arrivée.</li>`);
+      } else if (m === 'sansech') {
+        lis.push(`<li><strong>Réservation :</strong> sans réservation. Se présenter muni du coupon imprimé à l'accueil pour l'échanger contre un billet.</li>`);
+      }
+    }
+
+    // LIVRAISON (KAM)
+    if (deal === 'KAM' && radio('liv') === 'oui') {
+      let ldel = radio('liv_del') === 'libre' ? val('liv_del_txt') : radio('liv_del');
+      const frais = radio('liv_frais') === 'oui' ? ` Frais de port en sus : ${val('lf_montant')} €.` : '';
+      if (ldel) lis.push(`<li><strong>Livraison :</strong> sous ${ldel} en France métropolitaine (hors DOM-TOM) après validation de votre commande.${frais}</li>`);
+    }
+
+    // ANNULATION
+    if (radio('ann') === 'oui') {
+      let adel = radio('ann_del') === 'libre' ? val('ann_del_txt') : radio('ann_del');
+      if (deal === 'GLive') {
+        lis.push(`<li><b>Modification ou annulation :</b> non échangeable, non remboursable sauf en cas d'annulation des représentations. Si l'événement est annulé pour une raison indépendante de la volonté du partenaire ou un cas de force majeure (y compris toute recommandation du ministère de la Santé), Groupon procèdera au remboursement intégral de la somme que vous avez payée. Si l'événement est reporté, Groupon ne vous remboursera que si vous le demandez. En cas d'indisponibilité des artistes, la direction se réserve le droit de modifier le présent programme sans en altérer la qualité.</li>`);
+      } else if (deal === 'KAM') {
+        lis.push(`<li><strong>Modification ou annulation :</strong> une fois l'achat effectué sur le site du vendeur, aucune modification ni annulation ne sera possible.</li>`);
+      } else if (adel) {
+        lis.push(`<li><strong>Modification ou annulation de la réservation :</strong> toute modification ou annulation de votre réservation doit être effectuée au moins ${adel} à l'avance. Passé ce délai, le coupon sera considéré comme utilisé, sans possibilité de remboursement ou d'échange. De même, une arrivée tardive peut entraîner l'annulation de la réservation, par conséquent le coupon sera considéré comme utilisé.</li>`);
+      }
+    }
+
+    // RESTAURANT
+    if (chk('rest_chk'))
+      lis.push(`<li>Les plats sont susceptibles de varier selon le marché, la saison et l'humeur du chef. Le cas échéant, les plats sont remplacés par des produits de gamme et de qualité équivalentes.</li>`);
+
+    // CUMULABLE
+    if (radio('cum') === 'non')
+      lis.push(`<li>Offre non cumulable avec d'autres promotions.</li>`);
+
+    // TEXTE LIBRE
+    document.getElementById('extra_txt').value.split('\n').filter(l => l.trim())
+      .forEach(l => lis.push(`<li>${l.trim()}</li>`));
+
+    // REDEMPTION INSTRUCTIONS (avec coordonnées de contact)
+    for (const m of methods) {
+      if (m === 'tel') {
+        const num = val('res_tel_val');
+        const numHTML = num ? `<a href="tel:${num}" rel="noopener noreferrer">${num}</a>` : '@téléphone';
+        if (del)
+          redemption.push(`<p><strong>Réservation exclusivement par téléphone.</strong></p>\n<p>Réservation obligatoire au moins ${del} à l'avance. Appelez le ${numHTML} en donnant les codes figurant sur votre coupon. Présentez votre coupon à l'arrivée.</p>`);
+        else
+          redemption.push(`<p><strong>Réservation exclusivement par téléphone.</strong></p>\n<p>Réservation obligatoire. Appelez le ${numHTML} en donnant les codes figurant sur votre coupon. Présentez votre coupon à l'arrivée.</p>`);
+      } else if (m === 'sms') {
+        const smsNum = val('res_sms_val');
+        const smsHTML = smsNum ? `<a href="sms:${smsNum}" rel="noopener noreferrer">${smsNum}</a>` : '@numéro SMS';
+        if (del)
+          redemption.push(`<p><strong>Réservation exclusivement par SMS.</strong></p>\n<p>Réservation obligatoire au moins ${del} à l'avance. Envoyez un SMS au ${smsHTML} en donnant les codes figurant sur votre coupon. Présentez votre coupon à l'arrivée.</p>`);
+        else
+          redemption.push(`<p><strong>Réservation exclusivement par SMS.</strong></p>\n<p>Réservation obligatoire. Envoyez un SMS au ${smsHTML} en donnant les codes figurant sur votre coupon. Présentez votre coupon à l'arrivée.</p>`);
+      } else if (m === 'email') {
+        const em = val('res_em_val');
+        const emHTML = em ? `<a href="mailto:${em}" rel="noopener noreferrer">${em}</a>` : '@email';
+        if (del)
+          redemption.push(`<p><strong>Réservation exclusivement par e-mail.</strong></p>\n<p>Réservation obligatoire au moins ${del} à l'avance à ${emHTML} en indiquant vos noms, prénoms ainsi que les codes figurant sur votre coupon. Présentez votre coupon à l'arrivée.</p>`);
+        else
+          redemption.push(`<p><strong>Réservation exclusivement par e-mail.</strong></p>\n<p>Réservation obligatoire à ${emHTML} en indiquant vos noms, prénoms ainsi que les codes figurant sur votre coupon. Présentez votre coupon à l'arrivée.</p>`);
+      } else if (m === 'web') {
+        const url = val('res_web_url'); const txt = val('res_web_txt') || 'le site du partenaire';
+        const lien = url ? `<a href="${url}" target="_blank" rel="noopener noreferrer" title="En cliquant sur ce lien, vous accédez à un site tiers non affilié à Groupon">${txt}</a>` : txt;
+        if (deal === 'KAM') {
+          if (del) redemption.push(`<p><strong>Échange du coupon exclusivement sur le site du vendeur</strong>, au moins ${del} à l'avance.</p>\n<p>Rendez-vous sur ${lien}. Entrez votre code Groupon dans le champ prévu à cet effet.</p>`);
+          else redemption.push(`<p><strong>Échange du coupon exclusivement sur le site du vendeur.</strong></p>\n<p>Rendez-vous sur ${lien}. Entrez votre code Groupon dans le champ prévu à cet effet.</p>`);
+        } else {
+          if (del) redemption.push(`<p><strong>Réservation obligatoire exclusivement sur le site du vendeur</strong>, au moins ${del} à l'avance.</p>\n<p>Rendez-vous sur ${lien}. Entrez votre code Groupon dans le champ prévu à cet effet.</p>`);
+          else redemption.push(`<p><strong>Réservation obligatoire exclusivement sur le site du vendeur.</strong></p>\n<p>Rendez-vous sur ${lien}. Entrez votre code Groupon dans le champ prévu à cet effet.</p>`);
+        }
+      } else if (m === 'booking') {
+        const perm = val('res_bt_perm');
+        const domain = deal === 'Local BE' ? 'groupon.be' : 'groupon.fr';
+        const btUrl = `https://www.${domain}/reservations/preview?dealid=${perm}&amp;utm_source=Groupon&amp;utm_medium=HP&amp;utm_campaign=PreviewBT`;
+        const btUrlMC = `https://www.${domain}/reservations/`;
+        const delTxt = del ? `Réservation obligatoire au moins ${del} à l'avance. ` : '';
+        redemption.push(
+          `<p>${delTxt}Consultez <a href="${btUrl}" target="_blank" rel="noopener noreferrer" title="Consultez les disponibilités">les disponibilités</a>.</p>\n` +
+          `<p><strong>La réservation en ligne est obligatoire</strong> au moment de l'achat ou depuis l'espace <a title="Votre historique de commandes" target="_blank" href="${btUrlMC}">&quot;Mes commandes&quot;</a> puis cliquez sur &ldquo;Vous avez reçu un bon cadeau&nbsp;? <u>Réserver maintenant</u>&rdquo;.</p>\n` +
+          `<p>Renseignez ensuite les informations du coupon (le Code Groupon et le code de sécurité) et validez pour choisir la date et heure souhaitées pour la réservation.</p>\n` +
+          `<p>Votre réservation est instantanément prise en compte, il est donc inutile d'appeler. Une confirmation vous sera envoyée par e-mail.</p>\n` +
+          `<p>Présentez le coupon à l'arrivée.</p>`
+        );
+      } else if (m === 'sans') {
+        redemption.push(`<p>Sans réservation. Présentez le coupon à l'arrivée.</p>`);
+      } else if (m === 'sansech') {
+        redemption.push(`<p>Sans réservation. Se présenter muni du coupon imprimé à l'accueil pour l'échanger contre un billet.</p>`);
+      }
+    }
+
+    // DANS LA DESCRIPTION
+    if (methods.includes('web')) {
+      const descWeb = `<div style="border:0 solid #ddd;border-radius:20px;padding:8px;background:#f3f4f6;color:#111;margin-bottom:1em;color: #666666; display: flex; align-items: center; font-size: 15px; padding-bottom: 10px; line-height: 1.5;">\n<div style="text-align: center; overflow: hidden;"><strong>Après l'achat de ce deal, vous devrez vous rendre sur le site web indiqué sur votre coupon afin de l'échanger.</strong></div>\n</div>`;
+      description_block = descWeb;
+    }
+    if (methods.includes('booking')) {
+      const perm3 = val('res_bt_perm');
+      const domain3 = deal === 'Local BE' ? 'groupon.be' : 'groupon.fr';
+      const btPreviewUrl = `https://www.${domain3}/reservations/preview?dealid=${perm3}&utm_source=Groupon&utm_medium=HP&utm_campaign=PreviewBT`;
+      const btResaUrl = `https://www.${domain3}/reservations/?utm_source=Groupon&utm_medium=HP&utm_campaign=Reservation`;
+      description_block = `<!-- CODE V3 --><p style="margin-top: 20px; margin-bottom: 10px; text-align: center; font-weight:bold;"><a href="${btPreviewUrl}" target="_blank" style="background-color: #0094ea45; color: #fff; cursor: pointer; display: inline-block; font-size: 15px; outline: 0; line-height: 1.4; padding: .5em 2em; border-radius: 30px; text-align: center; text-decoration: none; transition: background-color .2s ease-out,border-color .2s ease-out,color .2s ease-out; margin: 0 10px 10px 0; min-width: 175px;">Disponibilités</a><a href="${btResaUrl}" style="background-color: #52a31851; cursor: pointer; color: #fff; display: inline-block; font-size: 15px; outline: 0; line-height: 1.4; padding: .5em 2em; border-radius: 30px; text-align: center; text-decoration: none; transition: background-color .2s ease-out,border-color .2s ease-out,color .2s ease-out; min-width: 175px; margin-bottom: 10px;" target="_blank">Réservation</a></p>`;
+    }
+
+    // BUILD HTML OUTPUT
+    let html = '';
+    if (lis.length > 0) { html += '<ul>\n'; lis.forEach(li => html += `  ${li}\n`); html += '</ul>'; }
+    if (paras.length > 0) html += '\n' + paras.join('\n');
+    if (redemption.length > 0) html += '\n\n<!-- Redemption Instructions -->\n' + redemption.join('\n');
+    if (description_block) html += '\n\n<!-- Dans la description -->\n' + description_block;
+
+    document.getElementById('code_out').value = html;
+
+    // PREVIEW
+    let previewHTML = '';
+    if (lis.length > 0) { previewHTML += '<ul>\n'; lis.forEach(li => previewHTML += `  ${li}\n`); previewHTML += '</ul>'; }
+    if (paras.length > 0) previewHTML += paras.join('\n');
+    if (redemption.length > 0) {
+      previewHTML += '<div class="sep"><div class="sep-lbl">📱 Redemption Instructions</div>' + redemption.join('\n') + '</div>';
+    }
+    if (description_block) {
+      previewHTML += '<div class="sep"><div class="sep-lbl">📝 Dans la description</div>' + description_block + '</div>';
+    }
+    document.getElementById('preview').innerHTML = previewHTML || '<em style="color:#6b7280;">Complétez le formulaire...</em>';
+  }
+
+  function copyHTML() {
+    const out = document.getElementById('code_out');
+    if (!out.value) return;
+    out.select(); document.execCommand('copy');
+    const t = document.getElementById('toast');
+    t.style.opacity = '1'; setTimeout(() => t.style.opacity = '0', 2000);
+  }
+
+  function resetAll() {
+    // Reset all radio to default checked state
+    document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+    document.getElementById('d_lfr').checked = true;
+    document.getElementById('excl_non').checked = true;
+    document.getElementById('vc_per').checked = true;
+    document.getElementById('hor_non').checked = true;
+    document.getElementById('rac_non').checked = true;
+    document.getElementById('rd_0').checked = true;
+    document.getElementById('liv_non').checked = true;
+    document.getElementById('lf_non').checked = true;
+    document.getElementById('ann_non').checked = true;
+    document.getElementById('cum_oui').checked = true;
+    // Reset checkboxes
+    document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
+    // Reset text inputs
+    document.querySelectorAll('input[type="text"], input[type="date"], textarea').forEach(i => i.value = '');
+    // Reset steppers
+    document.getElementById('lim_num').value = '1';
+    document.getElementById('lim_off_nb').value = '1';
+    document.getElementById('extra_txt').value = '';
+    ui(); gen();
+  }
+
+  const SECTION_DEFAULTS = {
+    sec_deal:  () => { document.getElementById('d_lfr').checked = true; },
+    sec_warn:  () => { document.getElementById('excl_non').checked = true; document.getElementById('excl_femmes').checked = false; },
+    sec_val:   () => { document.getElementById('vc_per').checked = true; document.querySelectorAll('input[name="val_per"]').forEach(r => r.checked = false); ['val_per_txt','val_fix_txt','val_ran_t1','val_ran_t2','val_uni_txt','hors_val'].forEach(id => { const e=document.getElementById(id); if(e) e.value=''; }); ['val_fix_date','val_ran_d1','val_ran_d2','val_uni_date'].forEach(id => { const e=document.getElementById(id); if(e) e.value=''; }); },
+    sec_hor:   () => { document.getElementById('hor_non').checked = true; document.getElementById('hor_txt').value = ''; },
+    sec_lim:   () => { document.querySelectorAll('input[name="lim"]').forEach(r => r.checked = false); document.getElementById('lim_num').value = '1'; document.getElementById('lim_off_nb').value = '1'; },
+    sec_rac:   () => { document.getElementById('rac_non').checked = true; document.querySelectorAll('input[name="rac_per"]').forEach(r => r.checked = false); document.getElementById('rac_per_txt').value = ''; },
+    sec_res:   () => { ['res_tel','res_sms','res_em','res_web','res_bt','res_sans','res_sansch'].forEach(id => { const e=document.getElementById(id); if(e) e.checked=false; }); ['res_tel_val','res_sms_val','res_em_val','res_web_url','res_web_txt','res_bt_perm'].forEach(id => { const e=document.getElementById(id); if(e) e.value=''; }); document.getElementById('rd_0').checked = true; document.getElementById('res_del_txt').value = ''; },
+    sec_livraison: () => { document.getElementById('liv_non').checked = true; document.querySelectorAll('input[name="liv_del"]').forEach(r => r.checked = false); document.getElementById('lf_non').checked = true; document.getElementById('lf_montant').value = ''; document.getElementById('liv_del_txt').value = ''; },
+    sec_ann:   () => { document.getElementById('ann_non').checked = true; document.querySelectorAll('input[name="ann_del"]').forEach(r => r.checked = false); document.getElementById('ann_del_txt').value = ''; },
+    sec_rest:  () => { document.getElementById('rest_chk').checked = false; },
+    sec_info:  () => { document.getElementById('cum_oui').checked = true; document.getElementById('extra_txt').value = ''; },
+  };
+
+  function clearSection(secId) {
+    if (SECTION_DEFAULTS[secId]) SECTION_DEFAULTS[secId]();
+    ui(); gen();
+  }
+
+  document.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') copyHTML(); });
+  document.getElementById('extra_txt').addEventListener('input', gen);
+
+  ui(); gen();
+</script>
+</body>
+</html>
