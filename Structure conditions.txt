@@ -48,8 +48,8 @@ Si Booking Tool - Local BE : <li><strong>Horaires :</strong> consultez <a href="
 *Avant achat*
 
 Limite : 
-par personne + à offrir : <li><strong>Limite d'achat de coupons :</strong> @Limite d'achat coupon par personne et par option, possibilité d'en acheter @supplémentaire supplémentaire pour offrir.</li>
-par personne sans possibilité d'offrir : <li><strong>Limite d'achat de coupons :</strong> @Limite d'achat coupon par personne et par option.</li>
+par personne + à offrir : <li><strong>Limite d'achat de coupons :</strong> @Limite d'achat coupon(s) par personne et par option, possibilité d'en acheter @supplémentaire supplémentaire(s) pour offrir.</li>
+par personne sans possibilité d'offrir : <li><strong>Limite d'achat de coupons :</strong> @Limite d'achat coupon(s) par personne et par option.</li>
 pas de limite : <li><strong>Limite d'achat de coupons :</strong> plusieurs coupons par personne peuvent être achetés et échangés.</li>
 
 
@@ -86,17 +86,11 @@ Si e-mail - sans délais : <li><strong>Réservation obligatoire exclusivement pa
 Si web - avec délais : <li><strong>Réservation obligatoire exclusivement en ligne</strong> au moins @délais à l'avance en suivant le lien figurant sur votre coupon. Présentez votre coupon à l'arrivée.</li>
 Si web - sans délais : <li><strong>Réservation obligatoire exclusivement en ligne</strong> en suivant le lien figurant sur votre coupon. Présentez votre coupon à l'arrivée.</li>
 
-Si Booking Tool - Local FR  : champ pour renseigner le permalink de l'offre (<p>Réservation obligatoire au moins @heure réservation heures à l'avance. Consultez <a href="https://www.groupon.fr/reservations/preview?dealid=@permalink&amp;utm_source=Groupon&amp;utm_medium=HP&amp;utm_campaign=PreviewBT" target="_blank" rel="noopener noreferrer" title="Consultez les disponibilités">les disponibilités</a>.</p>
-<p><strong>La réservation en ligne est obligatoire</strong> au moment de l’achat ou depuis l’espace <a title="Consultez les disponibilités" target="_blank" href="https://www.groupon.fr/reservations/">"Mes commandes"</a> puis cliquez sur “Vous avez reçu un bon cadeau ? <u>Réserver maintenant</u>”.</p>
-<p>Renseignez ensuite les informations du coupon (le Code Groupon et le code de sécurité) et validez pour choisir la date et heure souhaitées pour la réservation.</p>
-<p>Votre réservation est instantanément prise en compte, il est donc inutile d'appeler. Une confirmation vous sera envoyée par e-mail.</p>
-<p>Présentez le coupon à l’arrivée.</p>)
+Si Booking Tool - Local FR  : 
+<p><strong>Réservation obligatoire au moins @heure réservation heures à l'avance.</strong> Consultez <a href="https://www.groupon.fr/reservations/preview?dealid=@permalink&amp;utm_source=Groupon&amp;utm_medium=HP&amp;utm_campaign=PreviewBT" target="_blank" rel="noopener noreferrer" title="Consultez les disponibilités">les disponibilités</a> et <a href="https://www.groupon.fr/reservations/" target="_blank" rel="noopener noreferrer">réserver en ligne</a> avec les codes Groupon figurant sur le coupon. <strong>La réservation en ligne est obligatoire.</strong> Votre réservation est instantanément prise en compte, il n'est donc pas nécessaire d'appeler.</p>
 
-Si Booking Tool - Local BE  : champ pour renseigner le permalink de l'offre (<p>Réservation obligatoire au moins @heure réservation heures à l'avance. Consultez <a href="https://www.groupon.be/reservations/preview?dealid=@permalink&amp;utm_source=Groupon&amp;utm_medium=HP&amp;utm_campaign=PreviewBT" target="_blank" rel="noopener noreferrer" title="Consultez les disponibilités">les disponibilités</a>.</p>
-<p><strong>La réservation en ligne est obligatoire</strong> au moment de l’achat ou depuis l’espace <a title="Consultez les disponibilités" target="_blank" href="https://www.groupon.be/reservations/">"Mes commandes"</a> puis cliquez sur “Vous avez reçu un bon cadeau ? <u>Réserver maintenant</u>”.</p>
-<p>Renseignez ensuite les informations du coupon (le Code Groupon et le code de sécurité) et validez pour choisir la date et heure souhaitées pour la réservation.</p>
-<p>Votre réservation est instantanément prise en compte, il est donc inutile d'appeler. Une confirmation vous sera envoyée par e-mail.</p>
-<p>Présentez le coupon à l’arrivée.</p>)
+Si Booking Tool - Local BE  : 
+<p><strong>Réservation obligatoire au moins @heure réservation heures à l'avance.</strong> Consultez <a href="https://www.groupon.be/reservations/preview?dealid=@permalink&amp;utm_source=Groupon&amp;utm_medium=HP&amp;utm_campaign=PreviewBT" target="_blank" rel="noopener noreferrer" title="Consultez les disponibilités">les disponibilités</a> et <a href="https://www.groupon.be/reservations/" target="_blank" rel="noopener noreferrer">réserver en ligne</a> avec les codes Groupon figurant sur le coupon. <strong>La réservation en ligne est obligatoire.</strong> Votre réservation est instantanément prise en compte, il n'est donc pas nécessaire d'appeler.</p>
 
 
 Sans réservation : <p>Sans réservation. Présentez le coupon à l'arrivée.</p>
@@ -176,17 +170,19 @@ Pour les KAM :
 <p>Rendez-vous sur <a href="https://site" target="_blank" rel="noopener noreferrer" title="En cliquant sur ce lien, vous accédez à un site tiers non affilié à Groupon">texte du lien</a>. Entrez votre code Groupon dans le champ prévu à cet effet.</p>
 
 
-Si Booking Tool - Local FR  : champ pour renseigner le permalink de l'offre (<p>Réservation obligatoire au moins @heure réservation heures à l'avance. Consultez <a href="https://www.groupon.fr/reservations/preview?dealid=@permalink&amp;utm_source=Groupon&amp;utm_medium=HP&amp;utm_campaign=PreviewBT" target="_blank" rel="noopener noreferrer" title="Votre historique de commandes">les disponibilités</a>.</p>
+Si Booking Tool - Local FR  : 
+<p>Réservation obligatoire au moins @heure réservation heures à l'avance. Consultez <a href="https://www.groupon.fr/reservations/preview?dealid=@permalink&amp;utm_source=Groupon&amp;utm_medium=HP&amp;utm_campaign=PreviewBT" target="_blank" rel="noopener noreferrer" title="Votre historique de commandes">les disponibilités</a>.</p>
 <p><strong>La réservation en ligne est obligatoire</strong> au moment de l’achat ou depuis l’espace <a title="Consultez les disponibilités" target="_blank" href="https://www.groupon.fr/reservations/">"Mes commandes"</a> puis cliquez sur “Vous avez reçu un bon cadeau ? <u>Réserver maintenant</u>”.</p>
 <p>Renseignez ensuite les informations du coupon (le Code Groupon et le code de sécurité) et validez pour choisir la date et heure souhaitées pour la réservation.</p>
 <p>Votre réservation est instantanément prise en compte, il est donc inutile d'appeler. Une confirmation vous sera envoyée par e-mail.</p>
-<p>Présentez le coupon à l’arrivée.</p>)
+<p>Présentez le coupon à l’arrivée.</p>
 
-Si Booking Tool - Local BE  : champ pour renseigner le permalink de l'offre (<p>Réservation obligatoire au moins @heure réservation heures à l'avance. Consultez <a href="https://www.groupon.be/reservations/preview?dealid=@permalink&amp;utm_source=Groupon&amp;utm_medium=HP&amp;utm_campaign=PreviewBT" target="_blank" rel="noopener noreferrer" title="Votre historique de commandes">les disponibilités</a>.</p>
+Si Booking Tool - Local BE  : 
+<p>Réservation obligatoire au moins @heure réservation heures à l'avance. Consultez <a href="https://www.groupon.be/reservations/preview?dealid=@permalink&amp;utm_source=Groupon&amp;utm_medium=HP&amp;utm_campaign=PreviewBT" target="_blank" rel="noopener noreferrer" title="Votre historique de commandes">les disponibilités</a>.</p>
 <p><strong>La réservation en ligne est obligatoire</strong> au moment de l’achat ou depuis l’espace <a title="Consultez les disponibilités" target="_blank" href="https://www.groupon.be/reservations/">"Mes commandes"</a> puis cliquez sur “Vous avez reçu un bon cadeau ? <u>Réserver maintenant</u>”.</p>
 <p>Renseignez ensuite les informations du coupon (le Code Groupon et le code de sécurité) et validez pour choisir la date et heure souhaitées pour la réservation.</p>
 <p>Votre réservation est instantanément prise en compte, il est donc inutile d'appeler. Une confirmation vous sera envoyée par e-mail.</p>
-<p>Présentez le coupon à l’arrivée.</p>)
+<p>Présentez le coupon à l’arrivée.</p>
 
 
 ______________ DANS LA DESCRIPTION ______________
